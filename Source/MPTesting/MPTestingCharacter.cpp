@@ -7,12 +7,16 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/Controller.h"
 #include "GameFramework/SpringArmComponent.h"
-
+#include "OnlineSubsystem.h"
+#include "Interfaces/OnlineSessionInterface.h"
+#include "OnlineSessionSettings.h"
 //////////////////////////////////////////////////////////////////////////
 // AMPTestingCharacter
 
-AMPTestingCharacter::AMPTestingCharacter()
-{
+AMPTestingCharacter::AMPTestingCharacter()://use FOnCreateSessionCompleteDelegate::CreateUObject initialize delegate and bind callback function
+CreateSessionCompleteDelegate(FOnCreateSessionCompleteDelegate::
+	CreateUObject(this,&ThisClass::OnCreateSessionComplete))//ThisClass::FullyQuailfiedFunction
+{//CreateUObject 1:class that use this delegate 2:function bind to this delegate
 	// Set size for collision capsule
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
 
@@ -49,6 +53,21 @@ AMPTestingCharacter::AMPTestingCharacter()
 
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named ThirdPersonCharacter (to avoid direct content references in C++)
+
+	IOnlineSubsystem* OnlineSubsystem = IOnlineSubsystem::Get();
+	if (OnlineSubsystem)
+	{
+		OnlineSessionInterface = OnlineSubsystem->GetSessionInterface();
+		if (GEngine)
+		{
+			GEngine->AddOnScreenDebugMessage(
+				-1,
+				15.f,
+				FColor::Blue,
+				FString::Printf(TEXT("Found OnlineSubsystem == %s"), *OnlineSubsystem->GetSubsystemName().ToString())
+			);
+		};
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -75,6 +94,63 @@ void AMPTestingCharacter::SetupPlayerInputComponent(class UInputComponent* Playe
 	// handle touch devices
 	PlayerInputComponent->BindTouch(IE_Pressed, this, &AMPTestingCharacter::TouchStarted);
 	PlayerInputComponent->BindTouch(IE_Released, this, &AMPTestingCharacter::TouchStopped);
+}
+
+void AMPTestingCharacter::CreateGameSession()
+{
+	//call when press 1
+	if(!OnlineSessionInterface.IsValid())
+	{
+		return;
+	}
+	auto ExistingSession=OnlineSessionInterface->GetNamedSession(NAME_GameSession);
+	if(ExistingSession!=nullptr)//destroy formal existing session
+	{
+		OnlineSessionInterface->DestroySession(NAME_GameSession);
+	}
+	//add delegate to its delegatelist,when create session,function bind to CreateSessionCompleteDelegate will be called
+	OnlineSessionInterface->AddOnCreateSessionCompleteDelegate_Handle(CreateSessionCompleteDelegate);
+	//创建智能指针
+	TSharedPtr<FOnlineSessionSettings> SessionSettings=MakeShareable(new FOnlineSessionSettings());
+	SessionSettings->bIsLANMatch=false;
+	SessionSettings->NumPublicConnections=4;
+	SessionSettings->bAllowJoinInProgress=true;
+	SessionSettings->bAllowJoinViaPresence=true;//通过区域加入
+	SessionSettings->bShouldAdvertise=true;//advertise so allow other find and join
+	SessionSettings->bUsesPresence=true;
+	const ULocalPlayer* LocalPlayer=GetWorld()->GetFirstLocalPlayerFromController();
+	//*解引用
+	OnlineSessionInterface->CreateSession(*LocalPlayer->GetPreferredUniqueNetId(),NAME_GameSession,*SessionSettings);
+	
+}
+
+void AMPTestingCharacter::OnCreateSessionComplete(FName SessionName, bool bWasSuccessful)
+{
+	CreateSessionTimes++;
+	if(bWasSuccessful)
+	{
+		if(GEngine)
+		{
+			GEngine->AddOnScreenDebugMessage(
+				-1,
+				15.f,
+				FColor::Blue,
+				FString::Printf(TEXT("Create session:%s,Time=%i"),*SessionName.ToString(),CreateSessionTimes)
+		);
+		}
+	}
+	else
+	{
+		if(GEngine)
+		{
+			GEngine->AddOnScreenDebugMessage(
+				-1,
+				15.f,
+				FColor::Red,
+				FString::Printf(TEXT("Create session Failed,TIME=%i"),CreateSessionTimes)
+		);
+		}
+	}
 }
 
 void AMPTestingCharacter::TouchStarted(ETouchIndex::Type FingerIndex, FVector Location)

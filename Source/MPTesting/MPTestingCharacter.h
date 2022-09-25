@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+//#include "OnlineSubsystem.h"
+#include "Interfaces/OnlineSessionInterface.h"
 #include "MPTestingCharacter.generated.h"
 
 UCLASS(config=Game)
@@ -61,5 +63,20 @@ public:
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
+
+public:
+	//IOnlineSessionPtr OnlineSessionInterface;+ͷ�ļ��൱����������
+	//����һ���װ��
+	//TSharedPtr<class IOnlineSession, ESPMode::ThreadSafe> OnlineSessionInterface;
+	IOnlineSessionPtr OnlineSessionInterface;
+	int32 CreateSessionTimes=0;
+protected:
+	UFUNCTION(BlueprintCallable)
+	void CreateGameSession();
+	//callback
+	void OnCreateSessionComplete(FName SessionName,bool bWasSuccessful);
+private:
+	FOnCreateSessionCompleteDelegate CreateSessionCompleteDelegate;
+	//FOnCreateSessionCompleteDelegateֻ�ܰ��ص����ͺ���
 };
 
