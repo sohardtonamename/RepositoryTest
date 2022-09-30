@@ -33,7 +33,8 @@ protected:
 	void OnStartSessionComplete(FName SessionName,bool bWasSuccessful);
 	
 private:
-IOnlineSessionPtr SessionInterface;
+	IOnlineSessionPtr SessionInterface;
+	TSharedPtr<FOnlineSessionSettings> LastSessionSettings;
 	//delegates ready to be add to OnlineSessionInterfaceDelegateList
 	//bind callbacks to these delegates
 	FOnCreateSessionCompleteDelegate CreateSessionCompleteDelegate;

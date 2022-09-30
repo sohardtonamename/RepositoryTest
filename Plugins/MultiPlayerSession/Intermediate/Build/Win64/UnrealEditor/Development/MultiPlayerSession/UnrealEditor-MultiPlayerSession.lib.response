@@ -8,6 +8,7 @@
 /NODEFAULTLIB
 "C:\Users\Administrator\Desktop\MPTesting\Intermediate\Build\Win64\MPTestingEditor\Development\Engine\SharedPCH.Engine.ShadowErrors.h.obj"
 "C:\Users\Administrator\Desktop\MPTesting\Plugins\MultiPlayerSession\Intermediate\Build\Win64\UnrealEditor\Development\MultiPlayerSession\Module.MultiPlayerSession.cpp.obj"
+"C:\Users\Administrator\Desktop\MPTesting\Plugins\MultiPlayerSession\Intermediate\Build\Win64\UnrealEditor\Development\MultiPlayerSession\Menu.cpp.obj"
 "C:\Users\Administrator\Desktop\MPTesting\Plugins\MultiPlayerSession\Intermediate\Build\Win64\UnrealEditor\Development\MultiPlayerSession\Module.MultiPlayerSession.gen.cpp.obj"
 "C:\Users\Administrator\Desktop\MPTesting\Plugins\MultiPlayerSession\Intermediate\Build\Win64\UnrealEditor\Development\MultiPlayerSession\Default.rc2.res"
 /OUT:"C:\Users\Administrator\Desktop\MPTesting\Plugins\MultiPlayerSession\Intermediate\Build\Win64\UnrealEditor\Development\MultiPlayerSession\UnrealEditor-MultiPlayerSession.lib"

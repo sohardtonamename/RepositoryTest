@@ -1460,6 +1460,9 @@
     <Filter Include="Plugins\MultiPlayerSession\Source\MultiPlayerSession\Private">
       <UniqueIdentifier>{E4E0E3EA-B000-3D8F-B6A6-D3A6EF2753F8}</UniqueIdentifier>
     </Filter>
+    <ClCompile Include="..\..\Plugins\MultiPlayerSession\Source\MultiPlayerSession\Private\Menu.cpp">
+      <Filter>Plugins\MultiPlayerSession\Source\MultiPlayerSession\Private</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Plugins\MultiPlayerSession\Source\MultiPlayerSession\Private\MultiPlayerSession.cpp">
       <Filter>Plugins\MultiPlayerSession\Source\MultiPlayerSession\Private</Filter>
     </ClCompile>
@@ -1469,6 +1472,9 @@
     <Filter Include="Plugins\MultiPlayerSession\Source\MultiPlayerSession\Public">
       <UniqueIdentifier>{D0CF2608-7BE6-39B3-9B58-A5F2DA434B78}</UniqueIdentifier>
     </Filter>
+    <ClInclude Include="..\..\Plugins\MultiPlayerSession\Source\MultiPlayerSession\Public\Menu.h">
+      <Filter>Plugins\MultiPlayerSession\Source\MultiPlayerSession\Public</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Plugins\MultiPlayerSession\Source\MultiPlayerSession\Public\MultiPlayerSession.h">
       <Filter>Plugins\MultiPlayerSession\Source\MultiPlayerSession\Public</Filter>
     </ClInclude>

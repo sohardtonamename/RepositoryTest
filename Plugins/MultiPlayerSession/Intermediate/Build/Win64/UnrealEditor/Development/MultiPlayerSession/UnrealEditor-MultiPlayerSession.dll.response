@@ -35,6 +35,7 @@
 /FUNCTIONPADMIN
 "C:\Users\Administrator\Desktop\MPTesting\Intermediate\Build\Win64\MPTestingEditor\Development\Engine\SharedPCH.Engine.ShadowErrors.h.obj"
 "C:\Users\Administrator\Desktop\MPTesting\Plugins\MultiPlayerSession\Intermediate\Build\Win64\UnrealEditor\Development\MultiPlayerSession\Module.MultiPlayerSession.cpp.obj"
+"C:\Users\Administrator\Desktop\MPTesting\Plugins\MultiPlayerSession\Intermediate\Build\Win64\UnrealEditor\Development\MultiPlayerSession\Menu.cpp.obj"
 "C:\Users\Administrator\Desktop\MPTesting\Plugins\MultiPlayerSession\Intermediate\Build\Win64\UnrealEditor\Development\MultiPlayerSession\Module.MultiPlayerSession.gen.cpp.obj"
 "C:\Users\Administrator\Desktop\MPTesting\Plugins\MultiPlayerSession\Intermediate\Build\Win64\UnrealEditor\Development\MultiPlayerSession\Default.rc2.res"
 "..\Intermediate\Build\Win64\UnrealEditor\Development\CoreUObject\UnrealEditor-CoreUObject.lib"
@@ -44,6 +45,7 @@
 "..\Intermediate\Build\Win64\UnrealEditor\Development\Core\UnrealEditor-Core.lib"
 "..\Plugins\Online\OnlineSubsystemSteam\Intermediate\Build\Win64\UnrealEditor\Development\OnlineSubsystemSteam\UnrealEditor-OnlineSubsystemSteam.lib"
 "..\Plugins\Online\OnlineSubsystem\Intermediate\Build\Win64\UnrealEditor\Development\OnlineSubsystem\UnrealEditor-OnlineSubsystem.lib"
+"..\Intermediate\Build\Win64\UnrealEditor\Development\UMG\UnrealEditor-UMG.lib"
 "delayimp.lib"
 "wininet.lib"
 "rpcrt4.lib"

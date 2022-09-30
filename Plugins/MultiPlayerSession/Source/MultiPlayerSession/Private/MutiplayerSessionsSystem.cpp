@@ -2,8 +2,10 @@
 
 
 #include "MutiplayerSessionsSystem.h"
+
+#include "OnlineSessionSettings.h"
 #include "OnlineSubsystem.h"
-#include "../../../../Developer/RiderLink/Source/RD/thirdparty/clsocket/src/ActiveSocket.h"
+
 
 UMutiplayerSessionsSystem::UMutiplayerSessionsSystem():
 	CreateSessionCompleteDelegate(FOnCreateSessionCompleteDelegate::CreateUObject(this,&ThisClass::OnCreateSessionComplete)),
@@ -21,6 +23,20 @@ UMutiplayerSessionsSystem::UMutiplayerSessionsSystem():
 
 void UMutiplayerSessionsSystem::CreateSession(int32 NumPublicConnections, FString MatchType)
 {
+	if(!SessionInterface) return;
+	auto ExistingSession=SessionInterface->GetNamedSession(NAME_GameSession);
+	if(ExistingSession!=nullptr)
+	{
+		SessionInterface->DestroySession(NAME_GameSession);
+	}
+	CreateSessionCompleteDelegateHandle= SessionInterface->AddOnCreateSessionCompleteDelegate_Handle(CreateSessionCompleteDelegate);
+	LastSessionSettings=MakeShareable(new FOnlineSessionSettings());
+	//若有steam连接则SubSystemName为Steam
+	LastSessionSettings->bIsLANMatch=IOnlineSubsystem::Get()->GetSubsystemName()=="NULL"?true:false;
+	LastSessionSettings->NumPublicConnections=NumPublicConnections;
+	LastSessionSettings->bAllowJoinInProgress=true;
+	LastSessionSettings->bAllowJoinViaPresence=true;
+	LastSessionSettings->bShouldAdvertise=true;
 }
 
 void UMutiplayerSessionsSystem::FindSession(int32 MaxSearchResults)
