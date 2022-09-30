@@ -5,8 +5,10 @@
 #include "Components/Button.h"
 #include "MutiplayerSessionsSystem.h"
 
-void UMenu::MenuSetup()
+void UMenu::MenuSetup(int32 NumOfPublicConnections, FString TypeOfMatch)
 {
+	NumPublicConnections=NumOfPublicConnections;
+	MatchType=TypeOfMatch;
 	AddToViewport();
 	SetVisibility(ESlateVisibility::Visible);
 	bIsFocusable=true;
@@ -48,11 +50,22 @@ bool UMenu::Initialize()
 	return true;
 }
 
+void UMenu::OnLevelRemovedFromWorld(ULevel* InLevel, UWorld* InWorld)
+{
+	MenuTearDown();
+	Super::OnLevelRemovedFromWorld(InLevel, InWorld);
+}
+
 void UMenu::HostButtonClicked()
 {
 	if(MutiplayerSessionsSystem)
 	{
-		MutiplayerSessionsSystem->CreateSession(4,FString("FreeForAll"));
+		MutiplayerSessionsSystem->CreateSession(NumPublicConnections,MatchType);
+		UWorld* World=GetWorld();
+		if(World)
+		{
+			World->ServerTravel((FString("/Game/Map/Lobby?listen")));
+		}
 	}
 }
 
@@ -67,4 +80,21 @@ void UMenu::JoinButtonClicked()
 			FString::Printf(TEXT("Join"))
 		);
 	};
+}
+
+//remove Menn and allow player control
+void UMenu::MenuTearDown()
+{
+	RemoveFromParent();
+	UWorld* World=GetWorld();
+	if(World)
+	{
+		APlayerController* PlayerController=World->GetFirstPlayerController();
+		if(PlayerController)
+		{
+			FInputModeGameOnly InputModeData;
+			PlayerController->SetInputMode(InputModeData);
+			PlayerController->SetShowMouseCursor(false);
+		}
+	}
 }

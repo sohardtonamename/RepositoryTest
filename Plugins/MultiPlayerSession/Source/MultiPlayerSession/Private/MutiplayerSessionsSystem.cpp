@@ -37,6 +37,14 @@ void UMutiplayerSessionsSystem::CreateSession(int32 NumPublicConnections, FStrin
 	LastSessionSettings->bAllowJoinInProgress=true;
 	LastSessionSettings->bAllowJoinViaPresence=true;
 	LastSessionSettings->bShouldAdvertise=true;
+	LastSessionSettings->bUsesPresence=true;
+	LastSessionSettings->bUseLobbiesIfAvailable=true;
+	LastSessionSettings->Set(FName("MatchType"),MatchType,EOnlineDataAdvertisementType::ViaOnlineServiceAndPing);
+	const ULocalPlayer* LocalPlayer=GetWorld()->GetFirstLocalPlayerFromController();
+	if(!SessionInterface->CreateSession(*LocalPlayer->GetPreferredUniqueNetId(),NAME_GameSession,*LastSessionSettings))
+	{//fail to create -->clear session
+		SessionInterface->ClearOnCreateSessionCompleteDelegate_Handle(CreateSessionCompleteDelegateHandle);
+	}
 }
 
 void UMutiplayerSessionsSystem::FindSession(int32 MaxSearchResults)
