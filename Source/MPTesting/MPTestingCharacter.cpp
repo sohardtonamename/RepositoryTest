@@ -118,6 +118,7 @@ void AMPTestingCharacter::CreateGameSession()
 	SessionSettings->bAllowJoinViaPresence=true;//通过区域加入
 	SessionSettings->bShouldAdvertise=true;//advertise so allow other find and join
 	SessionSettings->bUsesPresence=true;
+	SessionSettings->bUseLobbiesIfAvailable = true;
 	const ULocalPlayer* LocalPlayer=GetWorld()->GetFirstLocalPlayerFromController();
 	//*解引用
 	OnlineSessionInterface->CreateSession(*LocalPlayer->GetPreferredUniqueNetId(),NAME_GameSession,*SessionSettings);
