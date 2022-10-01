@@ -65,18 +65,25 @@ public:
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
 
 public:
-	//IOnlineSessionPtr OnlineSessionInterface;+Í·ï¿½Ä¼ï¿½ï¿½àµ±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-	//ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½×°ï¿½ï¿½
+	//IOnlineSessionPtr OnlineSessionInterface;+Í·ÎÄ¼þÏàµ±ÓÚÏÂÃæÕâÐÐ
+	//¼õÉÙÒ»²ã·â×°µÄ
 	//TSharedPtr<class IOnlineSession, ESPMode::ThreadSafe> OnlineSessionInterface;
 	IOnlineSessionPtr OnlineSessionInterface;
 	int32 CreateSessionTimes=0;
 protected:
 	UFUNCTION(BlueprintCallable)
 	void CreateGameSession();
+	UFUNCTION(BlueprintCallable)
+	void JoinGameSession();
 	//callback
 	void OnCreateSessionComplete(FName SessionName,bool bWasSuccessful);
+	void OnFindSessionsComplete(bool bWasSuccessful);
+	void OnJoinSessionComplete(FName SessionName,EOnJoinSessionCompleteResult::Type Result);
 private:
 	FOnCreateSessionCompleteDelegate CreateSessionCompleteDelegate;
-	//FOnCreateSessionCompleteDelegateÖ»ï¿½Ü°ï¿½ï¿½Øµï¿½ï¿½ï¿½ï¿½Íºï¿½ï¿½ï¿½
+	//FOnCreateSessionCompleteDelegateÖ»ÄÜ°ó¶¨ÌØµãÀàÐÍº¯Êý
+	FOnFindSessionsCompleteDelegate FindSessionsCompleteDelegate;
+	TSharedPtr<FOnlineSessionSearch> SessionSearch;
+	FOnJoinSessionCompleteDelegate JoinSessionCompleteDelegate;
 };
 
